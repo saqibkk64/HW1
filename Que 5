@@ -1,0 +1,27 @@
+#include <vector>
+#include <algorithm>
+
+int maxEnvelopes(std::vector<std::vector<int>>& envelopes) {
+    int n = envelopes.size();
+    if (n == 0) return 0;
+
+    // Sort envelopes based on width in ascending order and height in descending order
+    std::sort(envelopes.begin(), envelopes.end(), [](const auto& a, const auto& b) {
+        return a[0] < b[0] || (a[0] == b[0] && a[1] > b[1]);
+    });
+
+    // Apply Longest Increasing Subsequence (LIS) algorithm on heights
+    std::vector<int> dp(n, 1);
+    int maxEnvelopes = 1;
+
+    for (int i = 1; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            if (envelopes[i][1] > envelopes[j][1]) {
+                dp[i] = std::max(dp[i], dp[j] + 1);
+            }
+        }
+        maxEnvelopes = std::max(maxEnvelopes, dp[i]);
+    }
+
+    return maxEnvelopes;
+}
