@@ -1,0 +1,31 @@
+#include <iostream>
+
+bool doRectanglesOverlap(int x1, int y1, int x2, int y2, int X1, int Y1, int X2, int Y2) {
+    // Check if one rectangle is to the left of the other
+    if (x2 <= X1 || X2 <= x1) {
+        return false;
+    }
+
+    // Check if one rectangle is above the other
+    if (y2 <= Y1 || Y2 <= y1) {
+        return false;
+    }
+
+    // Rectangles overlap
+    return true;
+}
+
+int main() {
+    // Example coordinates for two rectangles
+    int x1 = 0, y1 = 0, x2 = 5, y2 = 5;
+    int X1 = 3, Y1 = 2, X2 = 8, Y2 = 7;
+
+    // Check if rectangles overlap
+    if (doRectanglesOverlap(x1, y1, x2, y2, X1, Y1, X2, Y2)) {
+        std::cout << "Rectangles overlap." << std::endl;
+    } else {
+        std::cout << "Rectangles do not overlap." << std::endl;
+    }
+
+    return 0;
+}
