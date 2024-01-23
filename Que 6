@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+bool isMatch(const std::string& word, const std::string& pattern) {
+    if (word.length() != pattern.length()) {
+        return false;
+    }
+
+    std::unordered_map<char, char> mapping;
+
+    for (int i = 0; i < word.length(); ++i) {
+        char w = word[i];
+        char p = pattern[i];
+
+        if (mapping.find(w) == mapping.end()) {
+            mapping[w] = p;
+        } else {
+            if (mapping[w] != p) {
+                return false;
+            }
+        }
+    }
+
+    std::vector<bool> used(26, false);
+
+    for (const auto& pair : mapping) {
+        char p = pair.second;
+        if (used[p - 'a']) {
+            return false;
+        }
+        used[p - 'a'] = true;
+    }
+
+    return true;
+}
+
+std::vector<std::string> findAndMatchPattern(const std::vector<std::string>& words, const std::string& pattern) {
+    std::vector<std::string> result;
+
+    for (const auto& word : words) {
+        if (isMatch(word, pattern)) {
+            result.push_back(word);
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    // Example usage:
+    std::vector<std::string> words = {"abc", "deq", "mee", "aqq", "dkd", "ccc"};
+    std::string pattern = "abb";
+
+    std::vector<std::string> matchingWords = findAndMatchPattern(words, pattern);
+
+    // Print the result
+    for (const auto& word : matchingWords) {
+        std::cout << word << " ";
+    }
+
+    return 0;
+}
